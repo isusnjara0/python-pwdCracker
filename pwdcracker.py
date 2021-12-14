@@ -1,18 +1,23 @@
 from time import time
-pwd = '1234'
+import string
+import itertools
+
+pwd = '12345'
 
 
 def brute(password):
-    lista = '1234567890abcdefghijklmnopqrstuvwxyz'
-    a = []
+    lista = string.digits #+ string.ascii_lowercase + string.ascii_uppercase
+    brKomb = 8
+    pokusaji = 0
 
-    for current in range(len(password)):
-        a = [i for i in lista]
-        for y in range(current):
-            a = [x+i for i in lista for x in a]
-    print(a.index(password))
+    for pwdLen in range(1, brKomb + 1):
+        for odabir in itertools.product(lista, repeat=pwdLen):
+            pokusaji += 1
+            odabir = ''.join(odabir)
+            if(odabir == password):
+                return 'Lozinka {}. je pronadena nakon {} pokusaja.'.format(odabir, pokusaji)
 
 start = time()
-brute(pwd)
+print(brute(pwd))
 end = time()
 print('Vrijeme je: %.2f sekundi' % (end  - start))
